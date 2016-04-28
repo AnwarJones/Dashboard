@@ -1,0 +1,38 @@
+﻿<md-dialog>
+    <form>
+        <md-dialog-content>
+            <div>
+                <md-button class="md-raised" ng-click="daydialog.closeDialog()">Close</md-button>
+            </div>
+                <h1>Days Deals</h1>
+                <table id="dealstable">
+                    <tr>
+                        <th>Deal #</th>
+                        <th>IDS Status</th>
+                        <th>New/Used</th>
+                        <th>Stock #</th>
+                        <th style="width:100px">Customer Name</th>
+                        <th>Make</th>
+                        <th>Front Gross</th>
+                        <th>Back Gross</th>
+                        <th>Total Gross</th>
+                    </tr>
+                    <tr ng-repeat="deal in daydialog.deals">
+                        
+                        <td>{{deal.dealnum}}</td>
+                        <td>{{deal.idsStatus}}</td>
+                        <td>{{deal.znewused}}</td>
+                        <td>{{deal.stockNumber}}</td>
+                        <td style="width:100px">{{deal.searchName|limitTo:10}}</td>
+                        <td>{{deal.make}}</td>
+                        <td>{{deal.zfront|currency}}</td>
+                        <td>{{deal.zback|currency}}</td>
+                        <td>{{deal.totalgross|currency}}</td>
+                    </tr>
+                </table>
+            <div>
+                <md-button class="md-raised" ng-click="daydialog.closeDialog()">Close</md-button>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

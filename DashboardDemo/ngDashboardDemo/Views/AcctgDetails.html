@@ -1,0 +1,32 @@
+﻿<md-dialog>
+    <form>
+        <md-dialog-content>
+            <div>
+                <md-button class="md-raised" ng-click="acctdialog.closeDialog()">Close</md-button>
+            </div>
+            <div class="md-dialog-content">
+                <h1>{{acctdialog.year}} Accounting Details</h1>
+                <table>
+                    <tr>
+                        <th>Month</th>
+                        <th>Gross</th>
+                        <th>Adds</th>
+                        <th>Expenses</th>
+                        <th>Net</th>
+                    </tr>
+                    <tr ng-repeat="month in acctdialog.months" ng-hide="!month.monthacct.length">
+                        <td>{{month.name}}</td>
+                        <td>{{month.gross|currency}}</td>
+                        <td>{{month.adds|currency}}</td>
+                        <td>{{month.expenses|currency}}</td>
+                        <td>{{month.net|currency}}</td>
+                    </tr>
+                </table>
+             
+            </div>
+            <div>
+                <md-button class="md-raised" ng-click="acctdialog.closeDialog()">Close</md-button>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

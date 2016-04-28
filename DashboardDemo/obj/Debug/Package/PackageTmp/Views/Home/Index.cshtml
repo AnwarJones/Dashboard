@@ -1,0 +1,339 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml" ng-app="DashboardDemo">
+<head>
+    <title>DealerOps Dashboard</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/android-desktop.png">
+    
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/ios-desktop.png">
+    
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+    <link rel="shortcut icon" href="images/favicon.png">
+    
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+    -->
+
+    <link href="~/Content/angular-material.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.2/material.cyan-light_blue.min.css">
+    <link href="~/Content/angular-chart.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+    <style>
+        #view-source {
+            position: fixed;
+            display: block;
+            right: 0;
+            bottom: 0;
+            margin-right: 40px;
+            margin-bottom: 40px;
+            z-index: 900;
+        }
+    </style>
+    <script language="javascript" type="text/javascript">
+  function resizeIframe(obj) {
+      obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+      obj.style.width = obj.contentWindow.document.body.width + 'px';
+  }
+    </script>
+</head>
+<body ng-controller="dashboardController as dc" ng-cloak>
+        <main class="mdl-color--grey-100">
+            <div class="mdl-grid">
+                <div class="mdl-card__actions mdl-cell mdl-cell--3-col mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--blue-900">
+                        <h2 class="mdl-card__title-text mdl-color-text--white">CIT Recap</h2>
+                    </div>
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                        <div class="mdl-grid">
+                            <div class="mdl-cell mdl-cell--6-col">
+                                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Total Contracts in Transit</strong></div>
+                                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Contracts: </strong>{{dc.citCount}}</div>
+                                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Averages: </strong><span ng-class="{'red':dc.citAvg<0}">{{dc.citAvg|currency}}</span></div>
+                                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Amount: </strong><span ng-class="{'red':dc.citTotal<0}">{{dc.citTotal|currency}}</span></div>
+                            </div>
+                            <div class="mdl-cell mdl-cell--6-col">
+                                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong> Over {{dc.vAge}} Days Old</strong></div>
+                                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Contracts: </strong>{{dc.topCitListCount}}</div>
+                                <div class="mdl-card__supporting-text mdl-color-text--grey-600" ng-class="{'red':dc.topCitListMoney<0}"><strong>Amount </strong>{{dc.topCitListMoney|currency}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-card__actions mdl-card--border">
+                        <md-button class="mdl-button mdl-js-button mdl-js-ripple-effect" ng-click="dc.showCitModal()">CIT Report</md-button>
+                    </div>
+                </div>
+                <div class="mdl-card__actions mdl-cell mdl-cell--3-col mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--blue-900">
+                        <h2 class="mdl-card__title-text mdl-color-text--white">Vehicle AR Recap</h2>
+                    </div>
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                        <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong># Due: </strong>{{dc.numberDue}}</div>
+                        <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>$ Due: </strong><span ng-class="{'red':dc.amountDue<0}">{{dc.amountDue|currency}}</span></div>
+                        <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Average: </strong><span ng-class="{'red':dc.ARavg<0}">{{dc.ARavg|currency}}</span></div>
+                        <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Average Age: </strong>{{dc.ageAve}}</div>
+                    </div>
+                </div>
+                <div class="mdl-card__actions mdl-cell mdl-cell--3-col mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--blue-900">
+                        <h2 class="mdl-card__title-text mdl-color-text--white">New Models On Hand</h2>
+                    </div>                   
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>{{dc.currentYear}}: </strong>{{dc.crrntYrCarsTtl}}</div>
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>{{dc.lastYear}}: </strong>{{dc.lstYrCarsTtl}}</div>
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600" ng-hide="!dc.priorYrCarsTtl>0"><strong>Prior Years </strong>{{dc.priorYrCarsTtl}}</div>
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Total New Models </strong>{{dc.totalNewModels}}</div>
+                </div>
+                <div class="mdl-card__actions mdl-cell mdl-cell--3-col mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--blue-900">
+                        <h2 class="mdl-card__title-text mdl-color-text--white">Older Units on Hand</h2>
+                    </div>
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600" ng-hide="!dc.agedLessThirtyOne.length>0"><strong>0-30 Days: </strong>{{dc.agedLessThirtyOne.length}}</div>
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600" ng-hide="!dc.agedThirtyOneSixty.length>0"><strong>31 - 60 Days: </strong>{{dc.agedThirtyOneSixty.length}}</div>
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600" ng-hide="!dc.agedGreaterSixty.length>0"><strong>Over 60 Days: </strong>{{dc.agedGreaterSixty.length}}</div>
+                    <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Total Used Models </strong>{{dc.usedInventory.length}}</div>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-grid">
+                    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet ">
+                        <div class="mdl-card__title mdl-color--blue-900">
+                            <h2 class="mdl-card__title-text mdl-color-text--white">Deal Recap By Day</h2>
+                        </div>
+                        <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600">
+                            <md-button class="md-raised" ng-click="dc.showDayDeals('today')"><strong>Today's Deals: </strong>{{dc.todayDealsTtl}}</md-button>
+                        </div>
+                        <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600">
+                            <md-button class="md-raised" ng-click="dc.showDayDeals('yest')"><strong>Yesterday's Deals: </strong>{{dc.yestDealsTtl}}</md-button>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <mdl-button ng-click="dc.showMonthDealModal()" class="mdl-button mdl-js-button mdl-js-ripple-effect">Total Months Deals</mdl-button>
+                        </div>
+                    </div>
+                    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet ">
+                        <div class="mdl-card__title mdl-color--blue-900">
+                            <h2 class="mdl-card__title-text mdl-color-text--white">Vehicle Inventory</h2>
+                        </div>
+                        <div>
+                            <canvas id="pie" class="chart chart-pie" chart-legend="true" chart-data="dc.vehicleData" chart-labels="dc.vehicleLabels"></canvas>
+                        </div>
+                        
+                        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                            <a href="#"><strong>{{dc.currentYear}}: </strong>{{dc.crrntYrNewCount}}</a>
+                        </div>
+                        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                            <a href="#"><strong>{{dc.lastYear}} : </strong>{{dc.lstYrNewCount}}</a>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect" ng-click="dc.showVehInvDialog(vehicleInventory)">Inventory Details</button>
+                        </div>
+                    </div>
+                    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet">
+                        <div class="mdl-card__title mdl-color--blue-900">
+                            <h2 class="mdl-card__title-text mdl-color-text--white">Accounting Net Trend</h2>
+                        </div>
+                        <div class="mdl-card--expand">
+                            <table id="acct-net-trends">
+                                <thead>
+                                    <tr>
+                                        <th>Year</th>
+                                        <th>Gross</th>
+                                        <th>Expense</th>
+                                        <th>Add</th>
+                                        <th>Net</th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td><md-button class="md-raised" ng-click="dc.showAcctDialog(dc.currentYear)">{{dc.currentYear}}</md-button></td>
+                                    <td ng-class="{'red':dc.thsYrsGross < 0}">{{dc.thisYrsGross|currency}}</td>
+                                    <td ng-class="{'red':dc.thsYrsExpns < 0}">{{dc.thsYrsExpns|currency}}</td>
+                                    <td ng-class="{'red':dc.thsYrsAdds < 0}">{{dc.thsYrsAdds|currency}}</td>
+                                    <td ng-class="{'red':dc.thsYrsNet < 0}">{{dc.thsYrsNet|currency}}</td>
+                                </tr>
+                                <tr>
+                                    <td><md-button class="md-raised" ng-click="dc.showAcctDialog(dc.lastYear)">{{dc.lastYear}}</md-button></td>
+                                    <td ng-class="{'red':dc.lstYrsGross<0}">{{dc.lstYrsGross|currency}}</td>
+                                    <td ng-class="{'red':dc.lstYrsExpns<0}">{{dc.lstYrsExpns|currency}}</td>
+                                    <td ng-class="{'red':dc.lstYrsAdds<0}">{{dc.lstYrsAdds|currency}}</td>
+                                    <td ng-class="{'red':dc.lstYrsNet<0}">{{dc.lstYrsNet|currency}}</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect" ng-click="dc.showAcctCompDialog(dc.currentYear)">Accounting Net Trends</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+   
+    <a href="https://github.com/google/material-design-lite/blob/master/templates/dashboard/" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white">View Source</a>
+
+
+    <script src="https://code.getmdl.io/1.1.2/material.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-aria/angular-aria.js"></script>
+    <script src="~/Scripts/angular-animate/angular-animate.min.js"></script>
+    <script src="~/Scripts/angular-material/angular-material.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/angular-resource.min.js"></script>
+    <script src="~/Scripts/angular-touch.min.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+    <script src="~/Scripts/angular-ui-router.min.js"></script>
+    <script src="~/Scripts/Chart.js"></script>
+    <script src="~/Scripts/angular-chart.js"></script>
+    <script src="~/Scripts/jquery-2.2.2.js"></script>
+
+
+
+    <script src="~/ngDashboardDemo/scripts/app.js"></script>
+    <script src="~/ngDashboardDemo/scripts/dashboardService.js"></script>
+    <script src="~/ngDashboardDemo/scripts/dashboardController.js"></script>
+
+</body>
+</html>
+@*<div class="mdl-grid">
+    <svg width="400px" height="300px" viewBox="0 0 150 150" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop">
+        <defs>
+            <filter id="shadow1" width="50" height="50">
+                <feOffset result="offOut" in="SourceAlpha" dx="15" dy="15"></feOffset>
+                <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10"></feGaussianBlur>
+                <feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend>
+            </filter>
+        </defs>
+        <rect fill="#4DB6AC" width="120" height="100" x="0" y="30" rx="20" ry="20" stroke="green" stroke-width="5" filter="url(#shadow1)"></rect>
+        <text x="6" y="45" fill="#ffffff" font-family="Roboto" font-size="12" font-weight="bold">
+            CIT Recap
+            <tspan x="10" y="60" font-weight="bold" font-size="9">Contracts {{dc.citCount}}</tspan>
+            <tspan x="10" y="75" font-weight="bold" font-size="9">Averages {{dc.citAvg|currency}}</tspan>
+            <tspan x="10" y="90" font-weight="bold" font-size="9">Amount {{dc.citTotal|currency}}</tspan>
+        </text>
+    </svg>
+    <svg fill="currentColor" width="400px" height="300px" viewBox="0 0 150 150" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop">
+        <defs>
+            <filter id="shadow2" width="50" height="50">
+                <feOffset result="offOut" in="SourceAlpha" dx="15" dy="15"></feOffset>
+                <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10"></feGaussianBlur>
+                <feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend>
+            </filter>
+        </defs>
+        <rect width="120" height="100" x="0" y="30" rx="20" ry="20" stroke="green" stroke-width="5" filter="url(#shadow1)"></rect>
+        <text x="6" y="45" fill="#ffffff" font-family="Roboto" font-size="12" font-weight="bold">
+            Vehicle A/R Recap
+            <tspan x="10" y="60" font-weight="bold" font-size="9"># Due {{dc.citCount}}</tspan>
+            <tspan x="10" y="75" font-weight="bold" font-size="9">$ Due {{dc.amountDue|currency}}</tspan>
+            <tspan x="10" y="90" font-weight="bold" font-size="9">Average {{dc.ARavg|currency}}</tspan>
+            <tspan x="10" y="105" font-weight="bold" font-size="9">Average Age {{dc.ageAve}}</tspan>
+        </text>
+    </svg>
+    <svg fill="currentColor" width="400px" height="300px" viewBox="0 0 150 150" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop">
+        <defs>
+            <filter id="shadow2" width="50" height="50">
+                <feOffset result="offOut" in="SourceAlpha" dx="15" dy="15"></feOffset>
+                <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10"></feGaussianBlur>
+                <feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend>
+            </filter>
+        </defs>
+        <rect width="120" height="100" x="0" y="30" rx="20" ry="20" stroke="green" stroke-width="5" filter="url(#shadow1)"></rect>
+        <text x="6" y="45" fill="#ffffff" font-family="Roboto" font-size="12" font-weight="bold">
+            New Models on Hand
+            <a xlink:href="#"><tspan x="10" y="60" font-weight="bold" font-size="9"><tspan id="currentYear" font-weight="bold" font-size="9"></tspan> {{dc.crrntYrCarsTtl}}</tspan></a>
+            <a xlink:href="#">
+                <tspan x="10" y="75" font-weight="bold" font-size="9"><tspan id="lastYear" font-weight="bold" font-size="9"></tspan> {{dc.lstYrCarsTtl}}</tspan>
+            </a>
+            <a xlink:href="#"><tspan x="10" y="90" font-weight="bold" font-size="9" @*ng-hide="!priorYrCarsTtl>0"><tspan id="priorYear" font-weight="bold" font-size="9">Previous Years</tspan> {{dc.priorYrCarsTtl}}</tspan></a>
+            <tspan x="10" y="105" font-weight="bold" font-size="9">Total New Models {{dc.totalNewModels}}</tspan>
+        </text>
+    </svg>
+
+    <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
+            <svg fill="currentColor" viewBox="0 0 500 250" class="demo-graph">
+                <use xlink:href="#chart" />
+            </svg>
+            <svg fill="currentColor" viewBox="0 0 500 250" class="demo-graph">
+                <use xlink:href="#chart" />
+            </svg>
+        </div>
+    <div class="demo-cards mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
+        <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--5-col-desktop">
+            <div class="mdl-card__title mdl-card--expand mdl-color--blue-900">
+                <h2 class="mdl-card__title-text">Deal Recap By Day</h2>
+            </div>
+            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                <a href="#">Today's Deals: {{dc.todayDealsTtl}}</a>
+            </div>
+            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                <a href="#">Yesterday's Deals:{{dc.yestDealsTtl}}</a>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect">Total Months Deals</a>
+            </div>
+        </div>
+        <div class="demo-separator mdl-cell--1-col"></div>
+        <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--5-col-desktop">
+            <div class="mdl-card__title mdl-card--expand mdl-color--blue-900">
+                <h2 class="mdl-card__title-text">Accounting Net Trend</h2>
+            </div>
+            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                <a href="#">Today's Deals: {{dc.todayDealsTtl}}</a>
+            </div>
+            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                <a href="#">Yesterday's Deals:{{dc.yestDealsTtl}}</a>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect">Total Months Deals</a>
+            </div>
+        </div>
+
+        <div class="demo-separator mdl-cell--1-col"></div>
+        <div class="demo-options mdl-card mdl-color--deep-purple-500 mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
+            <div class="mdl-card__supporting-text mdl-color-text--blue-grey-50">
+                <h3>View options</h3>
+                <ul>
+                    <li>
+                        <label for="chkbox1" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                            <input type="checkbox" id="chkbox1" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">Click per object</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="chkbox2" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                            <input type="checkbox" id="chkbox2" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">Views per object</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="chkbox3" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                            <input type="checkbox" id="chkbox3" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">Objects selected</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="chkbox4" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                            <input type="checkbox" id="chkbox4" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">Objects viewed</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--blue-grey-50">Change location</a>
+                <div class="mdl-layout-spacer"></div>
+                <i class="material-icons">location_on</i>
+            </div>
+        </div>
+    </div>
+</div>*@
+

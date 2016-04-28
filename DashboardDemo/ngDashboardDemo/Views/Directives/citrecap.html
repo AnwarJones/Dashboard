@@ -1,0 +1,23 @@
+﻿<div class="mdl-card mdl-cell mdl-cell--3-col mdl-shadow--2dp">
+    <div class="mdl-card__title mdl-color--blue-900">
+        <h2 class="mdl-card__title-text mdl-color-text--white">CIT Recap</h2>
+    </div>
+    <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--6-col">
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Total Contracts in Transit</strong></div>
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Contracts: </strong>{{dc.citCount}}</div>
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Averages: </strong><span ng-class="{'red':dc.citAvg<0}">{{dc.citAvg|currency}}</span></div>
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Amount: </strong><span ng-class="{'red':dc.citTotal<0}">{{dc.citTotal|currency}}</span></div>
+            </div>
+            <div class="mdl-cell mdl-cell--6-col">
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong> Over {{dc.vAge}} Days Old</strong></div>
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600"><strong>Contracts: </strong>{{dc.topCitListCount}}</div>
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600" ng-class="{'red':dc.topCitListMoney<0}"><strong>Amount </strong>{{dc.topCitListMoney|currency}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+        <md-button class="mdl-button mdl-js-button mdl-js-ripple-effect" ng-click="dc.showCitModal()">CIT Report</md-button>
+    </div>
+</div>

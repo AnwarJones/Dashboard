@@ -1,0 +1,12 @@
+﻿<div class="mdl-card mdl-cell mdl-cell--3-col mdl-shadow--2dp">
+    <div class="mdl-card__title mdl-color--blue-900">
+        <h2 class="mdl-card__title-text mdl-color-text--white">New Models On Hand</h2>
+    </div>
+    <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600"><strong>{{dc.currentYear}}: </strong>{{dc.crrntYrCarsTtl}}</div>
+    <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600"><strong>{{dc.lastYear}}: </strong>{{dc.lstYrCarsTtl}}</div>
+    <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600" ng-hide="!dc.priorYrCarsTtl>0"><strong>Prior Years </strong>{{dc.priorYrCarsTtl}}</div>
+    <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600"><strong>Total New Models </strong>{{dc.totalNewModels}}</div>
+    <div class="mdl-card__actions mdl-card--border">
+        <mdl-button ng-click="dc.invDialog(dc.topTenOldstNew)" class="mdl-button mdl-js-button mdl-js-ripple-effect">Top Ten New </mdl-button>
+    </div>
+</div>

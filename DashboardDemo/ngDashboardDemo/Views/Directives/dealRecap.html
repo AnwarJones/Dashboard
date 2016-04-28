@@ -1,0 +1,15 @@
+﻿<div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet ">
+    <div class="mdl-card__title mdl-color--blue-900">
+        <h2 class="mdl-card__title-text mdl-color-text--white">Deal Recap By Day</h2>
+    </div>
+    <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600">
+        <md-button class="md-raised" ng-click="dc.showDayDeals('today')"><strong>Today's Deals: </strong>{{dc.todayDealsTtl}}</md-button>
+    </div>
+    <div class="mdl-card__supporting-text mdl-card--expand mdl-color-text--grey-600">
+        <md-button class="md-raised" ng-click="dc.showDayDeals('yest')"><strong>Yesterday's Deals: </strong>{{dc.yestDealsTtl}}</md-button>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+        <mdl-button ng-click="dc.showMonthDealModal()" class="mdl-button mdl-js-button mdl-js-ripple-effect">Total Months Deals</mdl-button>
+    </div>
+</div>
+    

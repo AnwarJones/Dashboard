@@ -1,0 +1,23 @@
+﻿<md-dialog >
+    <md-dialog-content>
+        <table id="topten">
+            <tr>
+                <th>SKU #</th>
+                <th>Model Year</th>
+                <th>Carline</th>
+                <th>Age</th>
+                <th>Balance</th>
+            </tr>
+            <tr ng-repeat="item in invdialog.inv">
+                <td>{{item.stknum}}</td>
+                <td>{{item.yr}}</td>
+                <td>{{item.zzcarline}}</td>
+                <td>{{item.zdaysold}}</td>
+                <td>{{item.amount}}</td>
+            </tr>
+        </table>
+        <md-button class="md-raised" ng-click="invdialog.closeDialog()">Close</md-button>
+
+    </md-dialog-content>
+
+</md-dialog>
